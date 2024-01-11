@@ -36,6 +36,11 @@ router.post('/', upload.array('images'), async (req, res) => {
 
       imageData.push(newImage);
     }
+
+    const imageCount = imageData.length;
+    task.imageCount += imageCount;
+    await task.save();
+
     res.status(201).send(imageData);
   } catch (error) {
     console.error('Error in image upload:', error);
