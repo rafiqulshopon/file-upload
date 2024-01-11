@@ -1,3 +1,4 @@
+import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
 import mongoose from 'mongoose';
@@ -12,6 +13,8 @@ mongoose
   .catch((err) => console.error('MongoDB connection error:', err));
 
 const app = express();
+
+app.use(cors());
 
 app.use(express.json());
 
