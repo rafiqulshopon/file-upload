@@ -1,6 +1,7 @@
 import dotenv from 'dotenv';
 import express from 'express';
 import mongoose from 'mongoose';
+import imageRoutes from './routes/imageRoutes.js';
 import taskRoutes from './routes/taskRoutes.js';
 
 dotenv.config();
@@ -13,6 +14,8 @@ mongoose
 const app = express();
 
 app.use(express.json());
+
+app.use('/image', imageRoutes);
 
 app.use('/task', taskRoutes);
 

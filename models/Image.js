@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const imageSchema = new mongoose.Schema({
-  imgixUrl: { type: String, required: true },
+  image_url: { type: String, required: true },
   taskId: { type: mongoose.Schema.Types.ObjectId, ref: 'Task', required: true },
 });
 
