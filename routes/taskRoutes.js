@@ -5,13 +5,26 @@ const router = express.Router();
 
 router.post('/', async (req, res) => {
   try {
-    const { name, description } = req.body;
+    const { name, description, from, to, contributor, comment, date, status } =
+      req.body;
 
-    if (!name) {
-      return res.status(400).send({ message: 'Task name is required' });
+    if (!name || !status) {
+      return res
+        .status(400)
+        .send({ message: 'Task name and status are required' });
     }
 
-    const newTask = new Task({ name, description });
+    const newTask = new Task({
+      name,
+      description,
+      from,
+      to,
+      contributor,
+      comment,
+      date,
+      status,
+      imageCount: 0,
+    });
     await newTask.save();
 
     res.status(201).send(newTask);
