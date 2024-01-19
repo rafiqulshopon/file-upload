@@ -1,4 +1,3 @@
-```markdown
 # Image Upload Backend
 
 This repository contains the backend code for an Image upload service built with Express.js, MongoDB, Multer, and Cloudinary. It supports multiple file uploads, stores images in Cloudinary, and references tasks in a MongoDB database.
