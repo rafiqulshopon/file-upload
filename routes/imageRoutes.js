@@ -21,27 +21,31 @@ router.post('/', upload.array('images'), async (req, res) => {
       return res.status(404).send({ message: 'Task not found' });
     }
 
-    const imageData = [];
+    const uploadedImages = [];
 
     for (const image of images) {
       const result = await cloudinary.uploader.upload(image.path, {
         folder: 'image',
       });
 
-      const newImage = new Image({
-        image_url: result.url,
-        taskId: taskId,
-      });
-      await newImage.save();
-
-      imageData.push(newImage);
+      try {
+        const newImage = new Image({
+          image_url: result.url,
+          taskId: taskId,
+        });
+        await newImage.save();
+        uploadedImages.push(newImage);
+      } catch (dbError) {
+        await cloudinary.uploader.destroy(result.public_id);
+        throw dbError;
+      }
     }
 
-    const imageCount = imageData.length;
+    const imageCount = uploadedImages.length;
     task.imageCount += imageCount;
     await task.save();
 
-    res.status(201).send(imageData);
+    res.status(201).send(uploadedImages);
   } catch (error) {
     console.error('Error in image upload:', error);
     res.status(500).send({ message: error.message });
